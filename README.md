@@ -13,7 +13,7 @@ e.g.,
 
 `Scanner.java`
 
-The first place it looks is in the files within
+The first place it looks is the files of
 the program project. If not found there, then is looks
 in the `java.lang` package. If not found there, then it
 looks for a Scanner.java file in whatever list of places are
