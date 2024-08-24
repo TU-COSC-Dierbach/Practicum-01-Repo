@@ -8,7 +8,7 @@ created, e.g.,
 
 `Scanner input = new Scanner(System.in)`
 
-Java searches for files that contain the references classes,
+Java searches for files that contain the referenced classes,
 e.g.,
 
 `Scanner.java`
