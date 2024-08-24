@@ -8,9 +8,8 @@ created, e.g.,
 
 `Scanner input = new Scanner(System.in)`
 
-Java searches
-for a file that contains the corresponding class,
-e.g., 
+In this case, Java searches for a file that contains the corresponding class
+named Scanner.java (and also one called System.java)
 
 `Scanner.java`
 
