@@ -1,5 +1,5 @@
 // The Import Statement in Java
-// You are NOT to include any import statements in the code
+// You are NOT to include any import statements in your modified code
 
 public class Main {
   
