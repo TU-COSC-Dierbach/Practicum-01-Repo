@@ -13,51 +13,18 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+    - name: scanner_test
+      id: scanner_test
+      uses: classroom-resources/autograding-command-grader@v1
       with:
-        fetch-depth: 5  # Fetch at least two commits to ensure we can compare
-
-    - name: Ensure there is a previous commit
-      run: |
-        if [ $(git rev-parse HEAD^) ]; then
-          echo "Previous commit exists"
-        else
-          echo "No previous commit found, skipping diff check."
-          exit 0
-        fi
-
-    - name: Check if Main.java changed
-      run: |
-        CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
-        if echo "$CHANGED_FILES" | grep -q "main.java"; then
-          echo "Main.java has changed"
-        else
-          echo "No changes in main.java" && exit 0
-        fi
-
-    - name: Check for Scanner usage
-      id: scanner_check
-      run: |
-        if grep -q "java.util.Scanner input = new java.util.Scanner(System.in);" main.java; then
-            echo "Scanner usage detected, but with full package name."
-            echo "score=5" >> $GITHUB_ENV  # Set score to 5
-          else
-            echo "Scanner usage not detected."
-            echo "score=0" >> $GITHUB_ENV  # Set score to 0
-          fi
-    - name: Display Test Results 
-      run: | 
-        if [[ "${{ env.score }}" -eq 5 ]]; then 
-          echo "Test Result: ✔️ Passed" 
-        else
-          echo "Test Result: ❌ Failed"
-        fi
-          echo "Final Score: ${{ env.score }}" 
-          # this is demo
-
+        test-name: scanner_test
+        setup-command: ''
+        command: '"./Tests/javac main.java"'
+        timeout: 10
+        max-score: 5
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_RESULTS: "${{ env.score }}"  # Use the score variable set in the previous step
+        SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
       with:
-        runners: "scanner_check"  # Use the ID defined in the scanner step
-  
+        runners: scanner_test
