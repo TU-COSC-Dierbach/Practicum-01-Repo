@@ -14,7 +14,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # First, run the scanner test using shell commands
+    # Install JDK (Java Development Kit)
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+
+    # Run the scanner test to check for Scanner usage
     - name: Run Scanner Test
       id: scanner_test
       run: |
@@ -26,7 +33,7 @@ jobs:
             echo "score=0" >> $GITHUB_ENV  # Set score to 0
         fi
 
-    # Use the classroom-resources autograding-command-grader in a separate step
+    # Grade the scanner test using Java compiler
     - name: scanner_test grading
       uses: classroom-resources/autograding-command-grader@v1
       with:
@@ -36,10 +43,10 @@ jobs:
         timeout: 10
         max-score: 5
 
-    # Report the results
+    # Report the grading results
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.score }}"  # Referencing the score set in the previous step
+        SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.score }}"  # Ensure the correct environment variable is used
       with:
-        runners: scanner_test
+        runners: scanner_test  # Use the correct test name, no comma needed since there is only one test
