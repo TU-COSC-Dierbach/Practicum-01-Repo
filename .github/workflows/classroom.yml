@@ -47,6 +47,7 @@ jobs:
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.result }}"  # Ensure the correct environment variable is used
+        SCANNER_TEST_RESULTS: "${{ env.score }}"
+        # "${{ steps.scanner_test.outputs.result }}"  # Ensure the correct environment variable is used
       with:
         runners: "scanner_test"  # Use the correct test name, no comma needed since there is only one test
