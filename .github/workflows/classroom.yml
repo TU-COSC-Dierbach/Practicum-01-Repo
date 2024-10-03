@@ -1,7 +1,7 @@
 name: Autograding Tests
-'on':
-- push
-- repository_dispatch
+on:
+  - push
+  - repository_dispatch
 permissions:
   checks: write
   actions: read
@@ -14,26 +14,32 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: scanner_test
+    # First, run the scanner test using shell commands
+    - name: Run Scanner Test
       id: scanner_test
       run: |
         if grep -q "java.util.Scanner input = new java.util.Scanner(System.in);" main.java; then
             echo "Scanner usage detected, but with full package name."
             echo "score=5" >> $GITHUB_ENV  # Set score to 5
-          else
+        else
             echo "Scanner usage not detected."
             echo "score=0" >> $GITHUB_ENV  # Set score to 0
-          fi
+        fi
+
+    # Use the classroom-resources autograding-command-grader in a separate step
+    - name: scanner_test grading
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: scanner_test
         setup-command: ''
-        command: '"./Tests/javac main.java"'
+        command: './Tests/javac main.java'
         timeout: 10
         max-score: 5
+
+    # Report the results
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.score}}"
+        SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.score }}"  # Referencing the score set in the previous step
       with:
         runners: scanner_test
