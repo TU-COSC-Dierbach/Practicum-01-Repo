@@ -52,6 +52,7 @@ jobs:
           echo "Test Result: ❌ Failed"
         fi
           echo "Final Score: ${{ env.score }}" 
+          # this is demo
 
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
