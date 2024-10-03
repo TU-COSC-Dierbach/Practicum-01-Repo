@@ -32,7 +32,7 @@ jobs:
       with:
         test-name: scanner_test
         setup-command: ''
-        command: './Tests/javac main.java'
+        command: javac main.java
         timeout: 10
         max-score: 5
 
