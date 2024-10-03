@@ -27,10 +27,10 @@ jobs:
       run: |
         if grep -q "java.util.Scanner input = new java.util.Scanner(System.in);" main.java; then
             echo "Scanner usage detected, but with full package name."
-            echo "score=5" >> $GITHUB_ENV  # Set score to 5
+            # echo "score=5" >> $GITHUB_ENV  # Set score to 5
         else
             echo "Scanner usage not detected."
-            echo "score=0" >> $GITHUB_ENV  # Set score to 0
+            # echo "score=0" >> $GITHUB_ENV  # Set score to 0
         fi
 
     # Grade the scanner test using Java compiler
@@ -47,7 +47,6 @@ jobs:
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: "5" 
-        # "${{ steps.scanner_test.outputs.score }}"  # Ensure the correct environment variable is used
+        SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.result }}"  # Ensure the correct environment variable is used
       with:
         runners: scanner_test  # Use the correct test name, no comma needed since there is only one test
