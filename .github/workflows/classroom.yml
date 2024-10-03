@@ -13,8 +13,17 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
     - name: scanner_test
       id: scanner_test
+      run: |
+        if grep -q "java.util.Scanner input = new java.util.Scanner(System.in);" main.java; then
+            echo "Scanner usage detected, but with full package name."
+            echo "score=5" >> $GITHUB_ENV  # Set score to 5
+          else
+            echo "Scanner usage not detected."
+            echo "score=0" >> $GITHUB_ENV  # Set score to 0
+          fi
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: scanner_test
@@ -25,6 +34,6 @@ jobs:
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
+        SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.score}}"
       with:
         runners: scanner_test
