@@ -53,7 +53,9 @@ jobs:
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.result }}"  
-        DUMMY_TEST_RESULTS: "${{steps.dummy_test.outputs.dummy_score}}"
+        SCANNER_TEST_RESULTS: ${{ env.score }} # The score from scanner_test
+        DUMMY_TEST_RESULTS: ${{ env.dummy_score }}
+        # SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.result }}"  
+        # DUMMY_TEST_RESULTS: "${{steps.dummy_test.outputs.dummy_score}}"
       with:
         runners: scanner_test, dummy_test # Use the correct test name, no comma needed since there is only one test
