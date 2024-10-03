@@ -33,6 +33,12 @@ jobs:
             # echo "score=0" >> $GITHUB_ENV  # Set score to 0
         fi
 
+    - name: dummy_test
+      id: dummy_test
+      run: |
+        echo "Dummy test for runner requirement."
+        echo "dummy_score=0" >> $GITHUB_ENV
+
     # Grade the scanner test using Java compiler
     - name: scanner_test grading
       uses: classroom-resources/autograding-command-grader@v1
@@ -47,7 +53,7 @@ jobs:
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: "${{ env.score }}"
-        # "${{ steps.scanner_test.outputs.result }}"  # Ensure the correct environment variable is used
+        SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.result }}"  
+        DUMMY_TEST_RESULTS: "${{steps.dummy_test.outputs.dummy_score}}"
       with:
-        runners: "scanner_test"  # Use the correct test name, no comma needed since there is only one test
+        runners: scanner_test, dummy_test # Use the correct test name, no comma needed since there is only one test
