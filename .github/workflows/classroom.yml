@@ -44,8 +44,8 @@ jobs:
             echo "Scanner usage not detected."
             echo "score=0" >> $GITHUB_ENV  # Set score to 0
           fi
-     - name: Display Test Results 
-       run: | 
+    - name: Display Test Results 
+      run: | 
         if [[ "${{ env.score }}" -eq 5 ]]; then 
           echo "Test Result: ✔️ Passed" 
         else
