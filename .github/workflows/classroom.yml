@@ -58,4 +58,4 @@ jobs:
         SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.score }}"  
         # DUMMY_TEST_RESULTS: "${{steps.dummy_test.outputs.dummy_score}}"
       with:
-        runners: "scanner_test, dummy_test"
+        runners: "scanner_test,dummy_test"
