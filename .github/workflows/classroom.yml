@@ -31,6 +31,7 @@ jobs:
         else
             echo "Scanner usage not detected."
             echo "::set-output name=score::0"  # Set score to 0
+        fi
       shell: bash
 
     - name: dummy_test
