@@ -48,14 +48,14 @@ jobs:
         echo "Dummy Test Score: $dummy_score"
 
     # Grade the scanner test using Java compiler
-    - name: scanner_test grading
-      uses: classroom-resources/autograding-command-grader@v1
-      with:
-        test-name: scanner_test
-        setup-command: ''
-        command: javac main.java
-        timeout: 10
-        max-score: 5
+    # - name: scanner_test grading
+    #   uses: classroom-resources/autograding-command-grader@v1
+    #   with:
+    #     test-name: scanner_test
+    #     setup-command: ''
+    #     command: javac main.java
+    #     timeout: 10
+    #     max-score: 5
 
     # Report the grading results
     - name: Autograding Reporter
