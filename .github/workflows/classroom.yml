@@ -31,13 +31,14 @@ jobs:
         else
             echo "Scanner usage not detected."
             echo "::set-output name=score::0"  # Set score to 0
-        fi
+      shell: bash
 
     - name: dummy_test
       id: dummy_test
       run: |
         echo "Dummy test for runner requirement."
         echo "::set-output name=dummy_score::0"
+      shell: bash
 
     # Grade the scanner test using Java compiler
     - name: scanner_test grading
@@ -58,6 +59,12 @@ jobs:
       with:
         runners: "scanner_test,dummy_test"
 
+
+    - name: Debug Outputs
+      run: |
+        echo "Scanner Test Score: ${{ steps.scanner_test.outputs.score }}"
+        echo "Dummy Test Score: ${{ steps.dummy_test.outputs.dummy_score }}"
+      
 
 
 # name: Autograding Tests
