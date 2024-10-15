@@ -1,7 +1,7 @@
 name: Autograding Tests
 on:
-  - push
-  - repository_dispatch
+  push:
+  repository_dispatch:
 permissions:
   checks: write
   actions: read
@@ -31,14 +31,14 @@ jobs:
         else
             echo "Scanner usage not detected."
             echo "score=0" >> $GITHUB_ENV  # Set score to 0
-    shell: bash
+      shell: bash
 
     - name: dummy_test
       id: dummy_test
       run: |
         echo "Dummy test for runner requirement."
         echo "dummy_score=0" >> $GITHUB_ENV
-    shell: bash
+      shell: bash
 
     # Debug Outputs
     - name: Debug Outputs
@@ -64,7 +64,6 @@ jobs:
         DUMMY_TEST_RESULTS: ${{ env.dummy_score }}
       with:
         runners: "scanner_test,dummy_test"
-
 
 
 # name: Autograding Tests
