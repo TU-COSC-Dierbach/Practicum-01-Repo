@@ -31,8 +31,6 @@ jobs:
         else
             echo "Scanner usage not detected."
             echo "::set-output name=score::0"  # Set score to 0
-      outputs:
-        score: ${{ steps.scanner_test.outputs.score }}
 
     - name: dummy_test
       id: dummy_test
