@@ -27,23 +27,24 @@ jobs:
       run: |
         if grep -q "java.util.Scanner input = new java.util.Scanner(System.in);" main.java; then
             echo "Scanner usage detected, but with full package name."
-            echo "::set-output name=score::5"  # Set score to 5
+            echo "score=5" >> $GITHUB_ENV  # Set score to 5
         else
             echo "Scanner usage not detected."
-            echo "::set-output name=score::0"  # Set score to 0
-        fi
-      shell: bash
+            echo "score=0" >> $GITHUB_ENV  # Set score to 0
+    shell: bash
 
     - name: dummy_test
       id: dummy_test
       run: |
         echo "Dummy test for runner requirement."
-        echo "::set-output name=dummy_score::0"
-      shell: bash
+        echo "dummy_score=0" >> $GITHUB_ENV
+    shell: bash
+
+    # Debug Outputs
     - name: Debug Outputs
       run: |
-        echo "Scanner Test Score: ${{ steps.scanner_test.outputs.score }}"
-        echo "Dummy Test Score: ${{ steps.dummy_test.outputs.dummy_score }}"
+        echo "Scanner Test Score: $score"
+        echo "Dummy Test Score: $dummy_score"
 
     # Grade the scanner test using Java compiler
     - name: scanner_test grading
@@ -59,12 +60,11 @@ jobs:
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: ${{ steps.scanner_test.outputs.score }}
-        DUMMY_TEST_RESULTS: ${{ steps.dummy_test.outputs.dummy_score }}
+        SCANNER_TEST_RESULTS: ${{ env.score }}
+        DUMMY_TEST_RESULTS: ${{ env.dummy_score }}
       with:
         runners: "scanner_test,dummy_test"
 
-      
 
 
 # name: Autograding Tests
