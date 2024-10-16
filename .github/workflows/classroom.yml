@@ -47,7 +47,7 @@ jobs:
       with:
         test-name: Compilation Test
         setup-command: ''
-        command: "./Tests/javac main.java"
+        command: javac main.java
         timeout: 10
         max-score: 1
 
