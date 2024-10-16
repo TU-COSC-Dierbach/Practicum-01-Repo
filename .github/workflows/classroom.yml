@@ -1,12 +1,11 @@
 name: Autograding Tests
 on:
-  workflow_dispatch:
+  push:
   repository_dispatch:
 permissions:
   checks: write
   actions: read
   contents: read
-
 jobs:
   run-autograding-tests:
     runs-on: ubuntu-latest
@@ -15,25 +14,48 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Compilation Test
-    - name: Compilation Test
-      id: compilation_test
+    # Install JDK (Java Development Kit)
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+
+    # Run the scanner test to check for Scanner usage
+    - name: Run Scanner Test
+      id: scanner_test
+      run: |
+        if grep -q "java.util.Scanner input = new java.util.Scanner(System.in);" main.java; then
+            echo "Scanner usage detected, but with full package name."
+            echo "score=5" >> $GITHUB_ENV  # Set score to 5
+        else
+            echo "Scanner usage not detected."
+            echo "score=0" >> $GITHUB_ENV  # Set score to 0
+        fi
+      shell: bash
+
+    # Debug Outputs
+    - name: Debug Outputs
+      run: |
+        echo "Scanner Test Score: $score"
+
+    # Grade the scanner test using Java compiler
+    - name: scanner_test grading
       uses: classroom-resources/autograding-command-grader@v1
       with:
-        test-name: Compilation Test
+        test-name: scanner_test
         setup-command: ''
         command: "./Tests/javac main.java"
         timeout: 10
-        max-score: 1
+        max-score: 5
 
-    # Autograding Reporter
+    # Report the grading results
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        COMPILATION_TEST_RESULTS: "${{ steps.compilation_test.outputs.result }}"
+        SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
       with:
-        runners: "compilation_test"
-
+        runners: "scanner_test"
 
 
 # name: Autograding Tests
