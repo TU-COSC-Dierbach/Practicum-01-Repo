@@ -1,11 +1,12 @@
 name: Autograding Tests
 on:
-  push:
+  workflow_dispatch:
   repository_dispatch:
 permissions:
   checks: write
   actions: read
   contents: read
+
 jobs:
   run-autograding-tests:
     runs-on: ubuntu-latest
@@ -14,57 +15,25 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Install JDK (Java Development Kit)
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
+    # Compilation Test
+    - name: Compilation Test
+      id: compilation_test
+      uses: classroom-resources/autograding-command-grader@v1
       with:
-        java-version: '11'
-        distribution: 'adopt'
+        test-name: Compilation Test
+        setup-command: ''
+        command: "./Tests/javac main.java"
+        timeout: 10
+        max-score: 1
 
-    # Run the scanner test to check for Scanner usage
-    - name: Run Scanner Test
-      id: scanner_test
-      run: |
-        if grep -q "java.util.Scanner input = new java.util.Scanner(System.in);" main.java; then
-            echo "Scanner usage detected, but with full package name."
-            echo "score=5" >> $GITHUB_ENV  # Set score to 5
-        else
-            echo "Scanner usage not detected."
-            echo "score=0" >> $GITHUB_ENV  # Set score to 0
-        fi
-      shell: bash
-
-    - name: dummy_test
-      id: dummy_test
-      run: |
-        echo "Dummy test for runner requirement."
-        echo "dummy_score=0" >> $GITHUB_ENV
-      shell: bash
-
-    # Debug Outputs
-    - name: Debug Outputs
-      run: |
-        echo "Scanner Test Score: $score"
-        echo "Dummy Test Score: $dummy_score"
-
-    # Grade the scanner test using Java compiler
-    # - name: scanner_test grading
-    #   uses: classroom-resources/autograding-command-grader@v1
-    #   with:
-    #     test-name: scanner_test
-    #     setup-command: ''
-    #     command: javac main.java
-    #     timeout: 10
-    #     max-score: 5
-
-    # Report the grading results
+    # Autograding Reporter
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: ${{ env.score }}
-        DUMMY_TEST_RESULTS: ${{ env.dummy_score }}
+        COMPILATION_TEST_RESULTS: "${{ steps.compilation_test.outputs.result }}"
       with:
-        runners: "scanner_test,dummy_test"
+        runners: "compilation_test"
+
 
 
 # name: Autograding Tests
