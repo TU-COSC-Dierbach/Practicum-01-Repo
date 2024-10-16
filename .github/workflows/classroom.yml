@@ -39,23 +39,25 @@ jobs:
       run: |
         echo "Scanner Test Score: $score"
 
-    # Grade the scanner test using Java compiler
-    - name: scanner_test grading
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Compilation Test
+      id: compilation-test
       uses: classroom-resources/autograding-command-grader@v1
       with:
-        test-name: scanner_test
+        test-name: Compilation Test
         setup-command: ''
         command: "./Tests/javac main.java"
         timeout: 10
-        max-score: 5
+        max-score: 1
 
     # Report the grading results
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
+        SCANNER_TEST_RESULTS: "${{steps.compilation-test.outputs.result}}"
       with:
-        runners: "scanner_test"
+        runners: compilation-test
 
 
 # name: Autograding Tests
