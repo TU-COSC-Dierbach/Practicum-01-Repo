@@ -4,7 +4,7 @@
 public class main {
   
   public static void main(String[] args) {
-    Scanner input = new java.util.Scanner(System.in);
+    Scanner input = new Scanner(System.in);
 
     System.out.println("What is your name? ");
     String name = input.next();
