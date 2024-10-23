@@ -31,10 +31,6 @@ jobs:
         fi
       shell: bash
 
-    # Step 4: Debug to Ensure the Score is Set Correctly
-    - name: Debug Results
-      run: echo "Scanner Test Score: ${{ env.scanner_score }}"
-
     # Step 5: Use the Autograding Reporter to Record Results
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
