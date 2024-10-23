@@ -20,7 +20,7 @@ jobs:
         test-name: Scanner_test
         setup-command: javac main.java
         command: |
-          if grep -Fxq 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
+          if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
             echo "Exact match found"
             exit 0  # Success
           else
