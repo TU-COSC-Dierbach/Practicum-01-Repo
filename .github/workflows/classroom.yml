@@ -65,7 +65,7 @@ jobs:
       env:
         TOTAL_SCORE: "${{ env.total_score }}"
       with:
-        runners: "scanner_test,compilation_test"
+        runners: "'scanner_test','compilation_test'"
 
 
 
