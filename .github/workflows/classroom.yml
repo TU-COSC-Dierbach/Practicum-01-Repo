@@ -18,15 +18,11 @@ jobs:
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: Scanner_test
-        setup-command: javac main.java
+        setup-command: |
+          chmod +x .github/scripts/scanner_check.sh  # Ensure the script is executable
+          javac main.java || exit 1  # Compile the code
         command: |
-          if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
-            echo "Exact match found"
-            exit 0
-          else
-            echo "Error: Scanner usage is incorrect. Ensure you declare and initialize the Scanner exactly as required." >&2
-            exit 1
-          fi
+          .github/scripts/scanner_check.sh >/dev/null 2>&1
         timeout: 10
         max-score: 5
 
