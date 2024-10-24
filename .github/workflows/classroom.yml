@@ -1,0 +1,110 @@
+name: Autograding Tests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+# 'on':
+# - push
+# - repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Scanner_test
+      id: scanner_test
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Scanner_test
+        setup-command: |
+          javac main.java || exit 1  # Compile the code
+        command: |
+          if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
+           exit 0  # Test passed
+          else
+            exit 1  # Test failed
+          fi
+        timeout: 10
+        max-score: 5
+
+
+
+        
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
+      with:
+        runners: scanner_test
+
+
+# name: Autograding Tests
+# on:
+#   - push
+#   - repository_dispatch
+# permissions:
+#   checks: write
+#   actions: read
+#   contents: read
+# jobs:
+#   run-autograding-tests:
+#     runs-on: ubuntu-latest
+#     if: github.actor != 'github-classroom[bot]'
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v4
+
+#     # Install JDK (Java Development Kit)
+#     - name: Set up JDK 11
+#       uses: actions/setup-java@v3
+#       with:
+#         java-version: '11'
+#         distribution: 'adopt'
+
+#     # Run the scanner test to check for Scanner usage
+#     - name: Run Scanner Test
+#       id: scanner_test
+#       run: |
+#         if grep -q "java.util.Scanner input = new java.util.Scanner(System.in);" main.java; then
+#             echo "Scanner usage detected, but with full package name."
+#             # echo "score=5" >> $GITHUB_ENV  # Set score to 5
+#         else
+#             echo "Scanner usage not detected."
+#             # echo "score=0" >> $GITHUB_ENV  # Set score to 0
+#         fi
+
+#     - name: dummy_test
+#       id: dummy_test
+#       run: |
+#         echo "Dummy test for runner requirement."
+#         echo "dummy_score=0" >> $GITHUB_ENV
+
+#     # Grade the scanner test using Java compiler
+#     - name: scanner_test grading
+#       uses: classroom-resources/autograding-command-grader@v1
+#       with:
+#         test-name: scanner_test
+#         setup-command: ''
+#         command: javac main.java
+#         timeout: 10
+#         max-score: 5
+
+#     # Report the grading results
+#     - name: Autograding Reporter
+#       uses: classroom-resources/autograding-grading-reporter@v1
+#       env:
+#         # SCANNER_TEST_RESULTS: ${{ env.dummy_score }} # The score from scanner_test
+#         # DUMMY_TEST_RESULTS: ${{ env.dummy_score }}
+#         SCANNER_TEST_RESULTS: "${{ steps.scanner_test.outputs.score }}"  
+#         # DUMMY_TEST_RESULTS: "${{steps.dummy_test.outputs.dummy_score}}"
+#       with:
+#         runners: "scanner_test,dummy_test"
