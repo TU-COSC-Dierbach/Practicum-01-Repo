@@ -19,12 +19,13 @@ jobs:
       with:
         test-name: Scanner_test
         setup-command: |
-          chmod +x .github/scripts/scanner_check.sh  # Ensure the script is executable
           javac main.java || exit 1  # Compile the code
         command: |
-          .github/scripts/scanner_check.sh >/dev/null 2>&1
-
-
+          if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
+           exit 0  # Test passed
+          else
+            exit 1  # Test failed
+          fi
         timeout: 10
         max-score: 5
 
