@@ -27,17 +27,9 @@ jobs:
         test-name: Scanner_test
         setup-command: |
           javac main.java || exit 1  # Compile the code
-        command: |
-          if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
-           exit 0  # Test passed
-          else
-            exit 1  # Test failed
-          fi
+        command: ${{ secrets.SCANNER_TEST }}
         timeout: 10
         max-score: 5
-        
-
-
 
         
     - name: Autograding Reporter
