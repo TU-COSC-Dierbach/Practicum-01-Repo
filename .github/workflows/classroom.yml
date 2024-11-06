@@ -6,6 +6,12 @@ on:
   pull_request:
     branches:
       - main
+
+  workflow_run:
+    workflows: ["Autograding Tests"]
+    types:
+      - completed
+
 permissions:
   checks: write
   actions: read
