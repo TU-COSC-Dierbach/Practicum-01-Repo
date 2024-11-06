@@ -11,7 +11,7 @@ permissions:
   actions: read
   contents: read
 jobs:
-  autograding_feedback:
+  feedback:
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
     steps:
@@ -28,7 +28,6 @@ jobs:
         timeout: 10
         max-score: 5
 
-        
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
