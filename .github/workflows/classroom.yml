@@ -1,37 +1,85 @@
-name: Autograding Tests
+name: Autograding Tests (Base Repository)
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+  workflow_run:
+    workflows: ["Student Submission"]
+    types:
+      - completed
 permissions:
   checks: write
   actions: read
   contents: read
+
 jobs:
   feedback:
     runs-on: ubuntu-latest
-    if: github.actor != 'github-classroom[bot]'
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    - name: Scanner_test
-      id: scanner_test
-      uses: classroom-resources/autograding-command-grader@v1
-      with:
-        test-name: Scanner_test
-        setup-command: |
-          javac main.java || exit 1  # Compile the code
-        command: ${{ secrets.SCANNER_TEST }}
-        timeout: 10
-        max-score: 5
+      - name: Clone Student Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.workflow_run.head_repository.full_name }}
+          ref: main
+      - name: Scanner_test
+        id: scanner_test
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Scanner_test
+          setup-command: |
+            javac main.java || exit 1  # Compile the code
+          command: ${{ secrets.SCANNER_TEST }}  # Access secret in base repo
+          timeout: 10
+          max-score: 5
 
-    - name: Autograding Reporter
-      uses: classroom-resources/autograding-grading-reporter@v1
-      env:
-        SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
-      with:
-        runners: scanner_test
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
+        with:
+          runners: scanner_test
+
+
+
+
+
+
+
+
+
+
+
+# name: Autograding Tests
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# permissions:
+#   checks: write
+#   actions: read
+#   contents: read
+# jobs:
+#   feedback:
+#     runs-on: ubuntu-latest
+#     if: github.actor != 'github-classroom[bot]'
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v4
+#     - name: Scanner_test
+#       id: scanner_test
+#       uses: classroom-resources/autograding-command-grader@v1
+#       with:
+#         test-name: Scanner_test
+#         setup-command: |
+#           javac main.java || exit 1  # Compile the code
+#         command: ${{ secrets.SCANNER_TEST }}
+#         timeout: 10
+#         max-score: 5
+
+#     - name: Autograding Reporter
+#       uses: classroom-resources/autograding-grading-reporter@v1
+#       env:
+#         SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
+#       with:
+#         runners: scanner_test
