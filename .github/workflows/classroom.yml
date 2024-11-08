@@ -1,9 +1,11 @@
 name: Autograding Tests (Base Repository)
+
 on:
   workflow_run:
     workflows: ["Student Submission"]
     types:
       - completed
+
 permissions:
   checks: write
   actions: read
@@ -12,12 +14,15 @@ permissions:
 jobs:
   feedback:
     runs-on: ubuntu-latest
+    environment: autograding  # Specify the environment here
+
     steps:
       - name: Clone Student Repository
         uses: actions/checkout@v4
         with:
           repository: ${{ github.event.workflow_run.head_repository.full_name }}
           ref: main
+
       - name: Scanner_test
         id: scanner_test
         uses: classroom-resources/autograding-command-grader@v1
@@ -25,7 +30,7 @@ jobs:
           test-name: Scanner_test
           setup-command: |
             javac main.java || exit 1  # Compile the code
-          command: ${{ secrets.SCANNER_TEST }}  # Access secret in base repo
+          command: ${{ secrets.SCANNER_TEST }}  # Environment secrets used here
           timeout: 10
           max-score: 5
 
@@ -35,6 +40,7 @@ jobs:
           SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
         with:
           runners: scanner_test
+
 
 
 
@@ -83,3 +89,14 @@ jobs:
 #         SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
 #       with:
 #         runners: scanner_test
+
+
+
+
+
+
+# if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
+#     exit 0  # Test passed
+# else
+#     exit 1  # Test failed
+# fi
