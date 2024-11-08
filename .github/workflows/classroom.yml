@@ -14,7 +14,7 @@ permissions:
 jobs:
   feedback:
     runs-on: ubuntu-latest
-    environment: autograding  # Specify the environment where your secret is stored
+    environment: autograding_environment  # Specify the environment where your secret is stored
     if: github.actor != 'github-classroom[bot]'
     steps:
     - name: Checkout code
@@ -26,7 +26,7 @@ jobs:
         test-name: Scanner_test
         setup-command: |
           javac main.java || exit 1  # Compile the code
-        command: ${{ secrets.scanner_environment }}
+        command: ${{ secrets.SCANNER_TEST }}
         timeout: 10
         max-score: 5
 
