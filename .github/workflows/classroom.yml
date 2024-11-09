@@ -14,7 +14,6 @@ permissions:
 jobs:
   feedback:
     runs-on: ubuntu-latest
-    environment: autograding_environment  # Specify the environment where your secret is stored
     if: github.actor != 'github-classroom[bot]'
     steps:
     - name: Checkout code
