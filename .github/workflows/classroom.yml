@@ -26,9 +26,9 @@ jobs:
       id: scanner_check 
       run: | 
         if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then 
-        echo "scanner_points=5" >> $GITHUB_ENV 
+           echo "scanner_points=5" >> $GITHUB_ENV 
         else 
-        echo "scanner_points=0" >> $GITHUB_ENV 
+           echo "scanner_points=0" >> $GITHUB_ENV 
         exit 1 
         fi 
 
