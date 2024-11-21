@@ -1,10 +1,11 @@
 // The Import Statement in Java
-// You are NOT to include any import statements in your modified code
+// You are NOT to include any import statements in your modified codejava
+
 
 public class main {
   
   public static void main(String[] args) {
-    util.Scanner input = new java.util.Scanner(System.in);
+    java.util.Scanner input = new java.util.Scanner(System.in);
 
     System.out.println("What is your name? ");
     String name = input.next();
