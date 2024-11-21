@@ -5,9 +5,10 @@
 public class main {
   
   public static void main(String[] args) {
-    
-    // System.out.println("What is your name? ");
-    // String name = input.next();
+    Scanner input = new Scanner(System.in);
+
+    System.out.println("What is your name? ");
+    String name = input.next();
     System.out.println("Hi " + "name");
     
   }
