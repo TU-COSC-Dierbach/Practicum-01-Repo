@@ -45,9 +45,8 @@ jobs:
           javac main.java || exit 1
         command: |
           if [ "$scanner_points" -eq 5 ]; then
-            echo "✅ Passed: Scanner usage correct."
+           exit 0
           else
-            echo "❌ Failed: Incorrect Scanner usage. Ensure 'java.util.Scanner' is properly declared."
             exit 1
           fi
           # if [ "${{ steps.s_value.outputs.points }}" -eq 5 ]; then
