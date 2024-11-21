@@ -22,15 +22,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Check for scanner
-      id: scanner_check 
+    - name: temp_values
+      id: s_value 
       run: | 
         if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then 
-           echo "scanner_points=5" >> $GITHUB_ENV 
-           echo "scanner_points=5" >> $GITHUB_OUTPUT
+           echo "points=5" >> $GITHUB_ENV 
+           echo "points=5" >> $GITHUB_OUTPUT
         else 
-           echo "scanner_points=0" >> $GITHUB_ENV 
-           echo "scanner_points=0" >> $GITHUB_OUTPUT
+           echo "points=0" >> $GITHUB_ENV 
+           echo "points=0" >> $GITHUB_OUTPUT
         exit 1 
         fi 
 
@@ -42,17 +42,13 @@ jobs:
         setup-command: |
           javac main.java || exit 1
         command: |
-          if [ "${{ steps.scanner_check.outputs.scanner_points }}" -eq 5 ]; then
+          if [ "${{ steps.s_value.outputs.points }}" -eq 5 ]; then
+            exit 0
             echo "Scanner points are correctly set to 5."
           else
             echo "Scanner points are not 5."
             exit 1  # Fail the workflow if points are not 5
           fi
-          # if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
-          #     exit 0  
-          # else
-          #     exit 1
-          # fi
 
         timeout: 10
         max-score: 5
