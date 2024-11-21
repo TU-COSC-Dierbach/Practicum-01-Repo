@@ -22,6 +22,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Check for scanner
+      id: scanner_check 
+      run: | 
+        if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then 
+        echo "scanner_points=5" >> $GITHUB_ENV 
+        else 
+        echo "scanner_points=0" >> $GITHUB_ENV 
+        exit 1 
+        fi 
+
     - name: Scanner_test
       id: scanner_test
       uses: classroom-resources/autograding-command-grader@v1
@@ -30,11 +40,16 @@ jobs:
         setup-command: |
           javac main.java || exit 1
         command: |
-          if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
-              exit 0  
+          if [ "$scanner_points" -eq 5 ]; then
+            exit 0
           else
-              exit 1
+            exit 1
           fi
+          # if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
+          #     exit 0  
+          # else
+          #     exit 1
+          # fi
 
         timeout: 10
         max-score: 5
