@@ -34,6 +34,7 @@ jobs:
           else
               exit 1
           fi
+          
         timeout: 10
         max-score: 5
 
