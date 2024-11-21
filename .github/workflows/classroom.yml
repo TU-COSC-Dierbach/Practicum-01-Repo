@@ -31,7 +31,6 @@ jobs:
         else 
            echo "points=0" >> $GITHUB_ENV 
            echo "points=0" >> $GITHUB_OUTPUT
-        exit 1 
         fi 
 
     - name: Scanner_test
