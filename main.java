@@ -9,7 +9,6 @@ public class Main {
 
     System.out.println("What is your name? ");
     String name = input.next();
-    System.out.println("Hi " + name);
-    
+    System.out.println("Hi " + name); 
   }
 }
