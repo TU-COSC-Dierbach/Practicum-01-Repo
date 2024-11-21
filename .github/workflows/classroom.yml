@@ -20,6 +20,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Debug solution script
+      run: |
+        cat solution.sh
+        echo "---- End of script ----"
+
 
       # Download the solution script from the release
     - name: Download solution script from release
