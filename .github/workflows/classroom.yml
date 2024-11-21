@@ -40,7 +40,7 @@ jobs:
         setup-command: |
           javac main.java || exit 1
         command: |
-          if [ "$scanner_points" -eq 5 ]; then
+          if [ "$scanner_points" -q 5 ]; then
             exit 0
           else
             exit 1
