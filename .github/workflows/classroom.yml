@@ -45,7 +45,7 @@ jobs:
         test-name: Scanner_test
         setup-command: |
           javac main.java || exit 1  # Compile the code
-        command: bash .github/workflows/solution.sh
+        command: bash solution.sh
         timeout: 10
         max-score: 5
 
