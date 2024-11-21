@@ -25,7 +25,7 @@ jobs:
     - name: temp_values
       id: s_value 
       run: | 
-        if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then 
+        if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' Main.java; then 
            echo "points=5" >> $GITHUB_ENV 
            echo "points=5" >> $GITHUB_OUTPUT
         else 
