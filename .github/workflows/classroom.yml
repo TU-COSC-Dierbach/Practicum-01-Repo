@@ -13,6 +13,7 @@ permissions:
   actions: read
   contents: read
 
+  
 jobs:
   feedback:
     runs-on: ubuntu-latest
@@ -30,6 +31,8 @@ jobs:
     # Debug to verify the solution script
     - name: Debug solution script
       run: |
+        ls -la solution.sh
+        cat solution.sh || echo "solution.sh not found or empty"
 
     - name: Scanner_test
       id: scanner_test
