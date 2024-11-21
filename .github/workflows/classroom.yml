@@ -41,12 +41,12 @@ jobs:
         setup-command: |
           javac main.java || exit 1
         command: |
-          # if [ "${{ steps.s_value.outputs.points }}" -eq 5 ]; then
-          #   echo "✅ Test Passed)."
-          # else
-          #   echo "S❌ Test Failed"
-          #   exit 1
-          # fi
+          if [ "${{ steps.s_value.outputs.points }}" -eq 5 ]; then
+            echo "✅ Test Passed)."
+          else
+            echo "S❌ Test Failed"
+            exit 1
+          fi
 
         timeout: 10
         max-score: 5
