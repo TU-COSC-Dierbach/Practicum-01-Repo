@@ -28,7 +28,7 @@ jobs:
         test-name: Scanner_test
         setup-command: |
           javac main.java || exit 1
-        command: 
+        command: |
           if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
               exit 0  
           else
