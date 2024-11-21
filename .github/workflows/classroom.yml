@@ -19,6 +19,25 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    # Upload solution script as an artifact (you would create this file before uploading)
+    - name: Upload solution script as artifact
+      run: |
+        echo "$SOLUTION_SCRIPT_CONTENT" > solution.sh  # Inject the content of the solution script
+        tar -czf solution.tar.gz solution.sh
+    - name: Upload solution artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: solution-artifact
+        path: solution.tar.gz
+
+    - name: Download solution script artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: solution-artifact
+
+
+
     - name: Scanner_test
       id: scanner_test
       uses: classroom-resources/autograding-command-grader@v1
