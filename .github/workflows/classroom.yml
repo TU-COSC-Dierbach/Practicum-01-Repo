@@ -12,6 +12,7 @@ permissions:
   checks: write
   actions: read
   contents: read
+
 jobs:
   feedback:
     runs-on: ubuntu-latest
@@ -20,12 +21,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-      # Download the solution script from the release
+    # Download the solution script from the release
     - name: Download solution script from release
       run: |
         curl -L -o solution.sh "https://github.com/TU-COSC-Dierbach/Fall2024-Practicum-01-Repo/releases/download/v1.0/solution.sh"
         chmod +x solution.sh  # Make it executable
 
+    # Debug to verify the solution script
+    - name: Debug solution script
+      run: |
 
     - name: Scanner_test
       id: scanner_test
@@ -44,14 +48,3 @@ jobs:
         SCANNER_TEST_RESULTS: "${{steps.scanner_test.outputs.result}}"
       with:
         runners: scanner_test
-
-
-
-
-
-
-# if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then
-#     exit 0  # Test passed
-# else
-#     exit 1  # Test failed
-# fi
