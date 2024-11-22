@@ -25,7 +25,7 @@ jobs:
     - name: temp_values
       id: s_value 
       run: | 
-        if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' Main.java; then 
+        if grep -q 'java.util.Scanner input = new java.util.Scanner(System.in);' main.java; then 
            echo "points=5" >> $GITHUB_ENV 
            echo "points=5" >> $GITHUB_OUTPUT
         else 
@@ -39,7 +39,7 @@ jobs:
       with:
         test-name: Scanner_test
         setup-command: |
-          javac Main.java || exit 1
+          javac main.java || exit 1
         command: |
           if [ "${{ steps.s_value.outputs.points }}" -eq 5 ]; then
             echo "✅ Test Passed)."
