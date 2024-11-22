@@ -39,7 +39,7 @@ jobs:
       with:
         test-name: Scanner_test
         setup-command: |
-          javac main.java || exit 1
+          javac Main.java || exit 1
         command: |
           if [ "${{ steps.s_value.outputs.points }}" -eq 5 ]; then
             echo "✅ Test Passed)."
